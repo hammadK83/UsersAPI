@@ -5,9 +5,14 @@ import { Construct } from 'constructs';
 import path from 'path';
 import * as apigateway from 'aws-cdk-lib/aws-apigatewayv2';
 import * as apigateway_integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
+import { DynamoDBStack } from './dynamodb-stack';
+
+interface UsersApiStackProps extends cdk.StackProps {
+  dynamodbStack: DynamoDBStack;
+}
 
 export class UsersApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: UsersApiStackProps) {
     super(scope, id, props);
 
     // Create a single Lambda function for all operations
@@ -16,7 +21,13 @@ export class UsersApiStack extends cdk.Stack {
       entry: path.join(__dirname, '../src/lambda/handler.ts'),
       handler: 'handler',
       functionName: `${this.stackName}-http-request-handler`,
+      environment: {
+        TABLE_NAME: props.dynamodbStack.usersTable.tableName,
+      },
     });
+
+    // Grant the Lambda function access to the DynamoDB table
+    props.dynamodbStack.usersTable.grantReadWriteData(httpRequestHandler);
 
     const httpApi = new apigateway.HttpApi(this, 'UsersApi', {
       apiName: 'Users API',
