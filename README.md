@@ -1,14 +1,59 @@
-# Welcome to your CDK TypeScript project
+# Serverless Users API (AWS CDK)
 
-This is a blank project for CDK development with TypeScript.
+A simple serverless Users API built with **AWS CDK**, **API Gateway**, **AWS Lambda**, and **DynamoDB**.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project demonstrates how to use AWS CDK to provision cloud infrastructure and implement a Http API that performs CRUD operations on a Users table.
 
-## Useful commands
+---
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+## Architecture Overview
+
+
+- **API Gateway (HTTP API)** receives incoming HTTP requests
+- **Lambda** handles request routing and business logic
+- **DynamoDB** stores user data using a simple key-based schema
+- **AWS CDK** is used to define and deploy all infrastructure
+
+---
+
+## Features
+
+- Create a user
+- Update a user
+- Delete a user
+- Get a single user
+- Get all users
+- Fully serverless and scalable
+- Pay-per-request DynamoDB billing
+- Infrastructure defined as code using AWS CDK
+
+---
+
+## Tech Stack
+
+- **AWS CDK**
+- **AWS Lambda**
+- **Amazon API Gateway**
+- **Amazon DynamoDB**
+- **TypeScript**
+
+---
+
+## API Endpoints
+
+| Method | Endpoint        | Description           |
+|--------|-----------------|-----------------------|
+| POST   | `/users`        | Create a user         |
+| GET    | `/users`        | Get all users         |
+| GET    | `/users/{id}`   | Get a single user     |
+| PUT    | `/users/{id}`   | Update a user         |
+| DELETE | `/users/{id}`   | Delete a user         |
+
+---
+
+## DynamoDB Schema
+
+- **Table Name:** `UsersTable`
+- **Partition Key:** `id` (string)
+
+Each item represents a single user record.
